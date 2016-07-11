@@ -5,6 +5,9 @@
   "main": "PageTransition.jsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "patch": "npm run build && npm version patch && git push && npm publish",
+    "major": "npm run build && npm version major && git push && npm publish",
+    "minor": "npm run build && npm version minor && git push && npm publish",
     "build": "./node_modules/babel-cli/bin/babel.js src -d lib"
   },
   "babel": {
