@@ -2,7 +2,7 @@
   "name": "react-router-page-transition",
   "version": "1.0.1",
   "description": "Highly customizable page transition component for your your React Router",
-  "main": "PageTransition.jsx",
+  "main": "lib/PageTransition.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "patch": "npm run build && npm version patch && git push && npm publish",
