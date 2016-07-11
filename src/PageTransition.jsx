@@ -64,7 +64,7 @@ export default class PageTransition extends React.Component {
                 dom.classList.remove('transition-appear-active');
               }
             }
-            this.props.onLoad();
+            this.props.onLoad && this.props.onLoad();
             child.onTransitionDidEnd && child.onTransitionDidEnd(this.props.data);
           });
         }, timeout);

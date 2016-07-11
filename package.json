@@ -8,6 +8,8 @@
     "patch": "npm run build && npm version patch && git push && npm publish",
     "major": "npm run build && npm version major && git push && npm publish",
     "minor": "npm run build && npm version minor && git push && npm publish",
+    "start": "NODE_ENV=development node dev-server ./webpack/config",
+    "build-demo": "NODE_ENV=production npm run webpack",
     "build": "./node_modules/babel-cli/bin/babel.js src -d lib"
   },
   "babel": {
@@ -15,6 +17,11 @@
       "es2015",
       "react"
     ]
+  },
+  "config": {
+    "buildDir": "./demo-build",
+    "devHost": "localhost",
+    "devPort": 8232
   },
   "keywords": [
     "react",
@@ -26,9 +33,27 @@
   "author": "Trung Dinh Quang",
   "license": "ISC",
   "devDependencies": {
+    "autoprefixer": "^6.3.6",
     "babel-cli": "^6.9.0",
+    "babel-core": "^6.10.4",
+    "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.9.0",
-    "babel-preset-react": "^6.5.0"
+    "babel-preset-react": "^6.5.0",
+    "css-loader": "^0.23.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.8.5",
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
+    "opn": "^4.0.2",
+    "postcss-loader": "^0.9.1",
+    "randomcolor": "^0.4.4",
+    "react-hot-loader": "^1.3.0",
+    "react-router": "^2.5.2",
+    "style-loader": "^0.13.1",
+    "template-html-loader": "0.0.3",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
     "react": "^15.1.0",
