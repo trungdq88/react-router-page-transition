@@ -1,0 +1,34 @@
+{
+  "name": "react-router-page-transition",
+  "version": "1.0.0",
+  "description": "Highly customizable page transition component for your your React Router",
+  "main": "PageTransition.jsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./node_modules/babel-cli/bin/babel.js src -d lib"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ]
+  },
+  "keywords": [
+    "react",
+    "react-router",
+    "transition",
+    "page",
+    "route"
+  ],
+  "author": "Trung Dinh Quang",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.9.0",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0"
+  },
+  "dependencies": {
+    "react": "^15.2.1",
+    "react-dom": "^15.2.1"
+  }
+}
