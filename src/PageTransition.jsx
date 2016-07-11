@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 
+const DEFAULT_TIMEOUT = 500;
+
 export default class PageTransition extends React.Component {
 
   constructor(...args) {
@@ -43,7 +45,7 @@ export default class PageTransition extends React.Component {
               dom.classList.add('transition-appear-active');
             }
           }, 17);
-          timeout = this.props.timeout || 500;
+          timeout = this.props.timeout || DEFAULT_TIMEOUT;
         }
         child.onTransitionDidStart && child.onTransitionDidStart(this.props.data);
 
