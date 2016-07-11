@@ -8,7 +8,7 @@ export default class ListPage extends React.Component {
     super(props);
 
     const items = [];
-    for (let i = 1; i < 10; i++) {
+    for (let i = 1; i < 20; i++) {
       items.push({
         id: i,
         text: `Item ${i}`,

@@ -16,11 +16,10 @@ body {
   position: relative;
   z-index: 1;
   .transition-item {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 99;
   }
 }
 
@@ -29,6 +28,7 @@ body {
   background-color: #fff;
   transition: transform 0.5s;
   height: 100vh;
+  box-sizing: border-box;
 
   &.transition-appear {
     transform: scale(0);
@@ -43,6 +43,7 @@ body {
   background-color: #fff;
   transition: opacity 0.5s;
   height: 100vh;
+  box-sizing: border-box;
 
   &.transition-appear {
     opacity: 0.01;
