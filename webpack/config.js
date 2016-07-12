@@ -14,6 +14,7 @@ var jsBundle = util.format('[name]/app.%s.js', pkg.version);
 var entry = {
   simple: ['./simple/js/App.jsx'],
   material: ['./material/js/App.jsx'],
+  reveal: ['./reveal/js/App.jsx'],
 };
 
 if (DEBUG) {
