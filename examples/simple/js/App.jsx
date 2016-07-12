@@ -1,5 +1,5 @@
 import './../less/main.less';
-import '../simple.html';
+import '../index.html';
 
 import React from 'react';
 import ReactDOM from 'react-dom';

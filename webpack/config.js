@@ -17,14 +17,16 @@ var entry = {
 };
 
 if (DEBUG) {
-  entry.app.push(
-    util.format(
-      'webpack-dev-server/client?http://%s:%d',
-      pkg.config.devHost,
-      pkg.config.devPort
-    )
-  );
-  entry.app.push('webpack/hot/dev-server');
+  Object.keys(entry).forEach(app => {
+    entry[app].push(
+      util.format(
+        'webpack-dev-server/client?http://%s:%d',
+        pkg.config.devHost,
+        pkg.config.devPort
+      )
+    );
+    entry[app].push('webpack/hot/dev-server');
+  });
 }
 
 var config = {
