@@ -14,7 +14,7 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
   <% if (environment !== 'development' && environment !== 'local') { %>
-  <link type="text/css" rel="stylesheet" media="all" href="css/app.<%= version %>.css" />
+  <link type="text/css" rel="stylesheet" media="all" href="app.<%= version %>.css" />
   <% } %>
 </head>
 
@@ -22,7 +22,7 @@
 
   <div id="app"></div>
 
-  <script src="js/app.<%= version %>.js" type="text/javascript" charset="utf-8"></script>
+  <script src="app.<%= version %>.js" type="text/javascript" charset="utf-8"></script>
 </body>
 
 </html>

@@ -9,10 +9,11 @@ var plugins = require('./plugins');
 var DEBUG = process.env.NODE_ENV === 'development';
 var TEST = process.env.NODE_ENV === 'test';
 
-var jsBundle = path.join('js', util.format('[name].%s.js', pkg.version));
+var jsBundle = util.format('[name]/app.%s.js', pkg.version);
 
 var entry = {
-  app: ['./simple/js/App.jsx'],
+  simple: ['./simple/js/App.jsx'],
+  material: ['./material/js/App.jsx'],
 };
 
 if (DEBUG) {

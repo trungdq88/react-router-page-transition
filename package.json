@@ -9,8 +9,10 @@
     "major": "npm run build && npm version major && git push && npm publish",
     "minor": "npm run build && npm version minor && git push && npm publish",
     "start": "NODE_ENV=development node dev-server ./webpack/config",
-    "build-demo": "NODE_ENV=production npm run webpack",
-    "build": "./node_modules/babel-cli/bin/babel.js src -d lib"
+    "clean-demo": "rimraf demo-build/*",
+    "build-demo": "npm run clean-demo && npm run webpack",
+    "build": "./node_modules/babel-cli/bin/babel.js src -d lib",
+    "webpack": "webpack --colors --progress --config ./webpack/config"
   },
   "babel": {
     "presets": [
