@@ -3,7 +3,7 @@ import PageTransition from '../../src/PageTransition.jsx';
 
 export default (props) => (
   <div>
-    <PageTransition timeout={500}>
+    <PageTransition>
       {props.children}
     </PageTransition>
   </div>

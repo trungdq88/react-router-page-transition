@@ -12,7 +12,7 @@ var TEST = process.env.NODE_ENV === 'test';
 var jsBundle = path.join('js', util.format('[name].%s.js', pkg.version));
 
 var entry = {
-  app: ['./js/App.jsx'],
+  app: ['./simple/js/App.jsx'],
 };
 
 if (DEBUG) {
@@ -27,7 +27,7 @@ if (DEBUG) {
 }
 
 var config = {
-  context: path.join(__dirname, '../demo'),
+  context: path.join(__dirname, '../examples'),
   cache: DEBUG,
   debug: DEBUG,
   target: 'web',
