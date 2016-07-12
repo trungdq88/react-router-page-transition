@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import randomColor from 'randomcolor';
 import Item from './Item.jsx';
+import action from './action.js';
 
 export default class ListPage extends React.Component {
   constructor(props) {
@@ -28,6 +29,13 @@ export default class ListPage extends React.Component {
           <Link
             key={item.id}
             className="list-item"
+            onClick={e => action.onNext({
+              name: 'CLICKED_ITEM_DATA',
+              data: {
+                position: e.target.getBoundingClientRect(),
+                color: item.color,
+              },
+            })}
             to={`/detail/${item.id}`}
           >
             <Item {...item} />
