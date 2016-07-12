@@ -17,9 +17,9 @@ and implement cool transitions like this:
 
 # Usage
 
-# Simple zoom trasition
+## Simple zoom trasition
 
-## App component
+### App component
 ```
 import PageTransition from 'react-router-page-transition';
 
@@ -29,7 +29,7 @@ import PageTransition from 'react-router-page-transition';
 </PageTransition>
 ```
 
-## DetailPage component
+### DetailPage component
 Add class `transition-item` to your root element, we will use this to animate the page
 when route change.
 ```
@@ -47,7 +47,7 @@ export default class ItemDetailPage extends React.Component {
 }
 ```
 
-## CSS:
+### CSS:
 Define animation using CSS
 ```
 .trasition-wrapper {
