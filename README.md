@@ -19,7 +19,6 @@ and implement cool transitions like this:
 
     npm install react-router-page-transition --save
 
-
 # API
 
 ## Properties:
@@ -54,15 +53,51 @@ and implement cool transitions like this:
         </PageTransition>
     ```
 
-# How it work?
-TODO
+## Callback on children component
+`PageTransition` component will call a several callbacks to its child component to provide useful data for the animation. Child components are changed via React Router when the route change.
+
+- **onTransitionWillStart(data)**: before the transition starts (before `transition-appear-active` class is added). `data` is the variable received from the `data` property of `PageTransition`.
+- **transitionManuallyStart(data)**: if you don't use `transition-appear-active` class in CSS to animate your page, you can define this method in the child component to do the animation mannually. `transition-appear-active` will not be added to the child's DOM when this method exists.
+- **onTransitionDidStart(data)**: after the transition started.
+- **onTransitionWillEnd(data)**: before the transition stops (before `transition-appear-active` class is removed).
+- **transitionManuallyStop(data)**: similar to `transitionManuallyStart`. `transition-appear-active` will not be removed to the child's DOM when this method exists.
+- **onTransitionDidEnd(data)**: after the transition stopped (after `transition-appear-active` class is removed)
+
+    Example:
+    ```jsx
+    export default class ItemDetailPage extends React.Component {
+      ...
+      onTransitionWillStart(data) {
+        this.setState({ animating: false, postiton: data.position, opacity: 0 });
+      }
+      transitionManuallyStart(data) {
+        this.setState({ animating: true, postiton: DEFAULT_POSITION, opacity: 1 });
+      }
+      onTransitionDidStart(data) {
+        // Animation is happening
+      }
+      onTransitionWillEnd(data) {
+        // Animation is about to stop
+      }
+      transitionManuallyStop(data) {
+        this.setState({ animating: false });
+      }
+      onTransitionDidEnd(data) {
+        // Page successfully replaced and finished animate
+        this.callMyBusinessApi();
+      }
+      
+      ...
+    ```
+
+# When to use this?
 
 **Pros:**
  - Keep page structure clean.
- - FLIP
+ - Give you ability to implement complex animation like.
 
 **Cons:**
- - Requires extra setup for page components
+ - Requires extra setup for the components
 
 # Examples
 
