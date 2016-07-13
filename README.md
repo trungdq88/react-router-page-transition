@@ -19,6 +19,41 @@ and implement cool transitions like this:
 
     npm install react-router-page-transition --save
 
+
+# API
+
+## Properties:
+- **timeout**: transition duration in milisecond, this must be the same with the `transition-duration` in your CSS.
+   
+   Example:
+    ```jsx
+        <PageTransition timeout={500}>
+          {props.children}
+        </PageTransition>
+    ```
+    
+- **data**: custom data to send to the page component via `onTransitionWillStart`, `onTransitionDidEnd`, `transitionManuallyStart`, `transitionManuallyEnd`.
+
+    Example:
+    ```jsx
+        <PageTransition
+          data={{ clickedItemData: this.state.clickedItemData }}
+        >
+          {this.props.children}
+        </PageTransition>
+    ```
+
+- **onLoad**: this callback will be call after the new page is finished replaced and animated.
+
+    Example:
+    ```jsx
+        <PageTransition
+          onLoad={() => this.refs.scrollArea.scrollTop = 0}
+        >
+          {this.props.children}
+        </PageTransition>
+    ```
+
 # How it work?
 TODO
 
@@ -298,36 +333,3 @@ Similar to the material, we use `border-radius` to animate the circle.
 
 **See demo:** https://trungdq88.github.io/react-router-page-transition/reveal/
 
-# API
-
-`PageTransition`'s properties:
-- `timeout`: transition duration in milisecond, this must be the same with the `transition-duration` in your CSS.
-   
-   Example:
-    ```jsx
-        <PageTransition timeout={500}>
-          {props.children}
-        </PageTransition>
-    ```
-    
-- `data`: custom data to send to the page component via `onTransitionWillStart`, `onTransitionDidEnd`, `transitionManuallyStart`, `transitionManuallyEnd`.
-
-    Example:
-    ```jsx
-        <PageTransition
-          data={{ clickedItemData: this.state.clickedItemData }}
-        >
-          {this.props.children}
-        </PageTransition>
-    ```
-
-- `onLoad`: this callback will be call after the new page is finished replaced and animated.
-
-    Example:
-    ```jsx
-        <PageTransition
-          onLoad={() => this.refs.scrollArea.scrollTop = 0}
-        >
-          {this.props.children}
-        </PageTransition>
-    ```
