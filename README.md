@@ -15,7 +15,7 @@ and implement cool transitions like this:
 |------|--------|------|
 |![simple](https://cloud.githubusercontent.com/assets/4214509/16784316/6dc99028-48b2-11e6-8f03-230e1178761b.gif)|![material](https://cloud.githubusercontent.com/assets/4214509/16781947/aa83ca34-48a7-11e6-8c93-dfdd794d7a28.gif) | ![reveal](https://cloud.githubusercontent.com/assets/4214509/16783423/1c58b880-48ae-11e6-97fb-5e92a7da1b40.gif)|
 
-# Install
+# Installation
 
     npm install react-router-page-transition --save
 
@@ -29,9 +29,9 @@ TODO
 **Cons:**
  - Requires extra setup for page components
 
-# Example
+# Examples
 
-## Simple zoom trasition
+## Example 1: Simple zoom trasition
 
 This is a simple transition: detail page zoom out from the middle.
 
@@ -44,6 +44,31 @@ ReactDOM.render(
       <Route path="/detail/:itemId" component={ItemDetailPage} />
     </Route>
   </Router>, document.getElementById('app'));
+```
+
+### ListPage component
+
+```js
+export default class ListPage extends React.Component {
+
+  ...
+  
+  render() {
+    return (
+      <div className="transition-item list-page">
+        {this.state.items.map(item => (
+          <Link
+            key={item.id}
+            className="list-item"
+            to={`/detail/${item.id}`}
+          >
+            <Item {...item} />
+          </Link>
+        ))}
+      </div>
+    );
+  }
+
 ```
 
 ### Home component
@@ -109,8 +134,41 @@ Define animation using CSS
 }
 ```
 
-## Material design transition
+## Example 2: Material design transition
 From a cool idea of [Material Motion](https://material.google.com/motion/material-motion.html#material-motion-how-does-material-move) that provide meaningful transition between pages.
+
+![material-sample](https://cloud.githubusercontent.com/assets/4214509/16789846/0ebb37f2-48db-11e6-8755-f106e5ae1488.gif)
+
+In order to implement this, we need to pass custom data into the detail page, which requires a data flow management for the app. In this example, I'll use **RxJS** to pass data between ListPage component, Home component and ItemDetalPage component, but you can use another library to handle the data (like Flux or Redux).
+
+### Home component
+
+### ListPage component
+
+```
+  render() {
+    return (
+      <div className="transition-item list-page">
+        {this.state.items.map(item => (
+          <Link
+            key={item.id}
+            className="list-item"
+            onClick={e => action.onNext({
+              name: 'CLICKED_ITEM_DATA',
+              data: {
+                position: e.target.getBoundingClientRect(),
+                color: item.color,
+              },
+            })}
+            to={`/detail/${item.id}`}
+          >
+            <Item {...item} />
+          </Link>
+        ))}
+      </div>
+    );
+  }
+```
 
 # API
 TODO
