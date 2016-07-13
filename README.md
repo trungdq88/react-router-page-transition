@@ -141,11 +141,10 @@ From a cool idea of [Material Motion](https://material.google.com/motion/materia
 
 In order to implement this, we need to pass custom data into the detail page, which requires a data flow management for the app. In this example, I'll use **RxJS** to pass data between ListPage component, Home component and ItemDetalPage component, but you can use another library to handle the data (like Flux or Redux).
 
-### Home component
 
 ### ListPage component
-
-```
+See the `onClick` method, we send the clicked item's data (color and position) to the action.
+```js
   render() {
     return (
       <div className="transition-item list-page">
@@ -169,6 +168,125 @@ In order to implement this, we need to pass custom data into the detail page, wh
     );
   }
 ```
+
+### Home component
+Home component receives the data and pass it to the `PageTransition` component.
+
+```js
+export default class Home extends React.Component {
+  constructor(...args) {
+    super(...args);
+    this.state = {
+      clickedItemData: null,
+    };
+  }
+
+  componentDidMount() {
+    // Receive data from the clicked item
+    this.obsClickedItemData = action
+    .filter(a => a.name === 'CLICKED_ITEM_DATA')
+    .map(a => a.data)
+    .subscribe(clickedItemData => this.setState({ clickedItemData }));
+  }
+
+  componentWillUnmount() {
+    this.obsClickedItemData.dispose();
+  }
+
+  render() {
+    return (
+      <div>
+        <PageTransition
+          data={{ clickedItemData: this.state.clickedItemData }}
+        >
+          {this.props.children}
+        </PageTransition>
+      </div>
+    );
+  }
+}
+```
+
+## ItemDetailPage component
+This component will receive the callbacks with data from `PageTransition` component, then we can use tihs to animate our page as we want.
+
+```js
+export default class ItemDetailPage extends React.Component {
+
+  constructor(...args) {
+    super(...args);
+    this.state = {
+      doTransform: false,
+      position: null,
+      color: null,
+    };
+  }
+
+  onTransitionWillStart(data) {
+    // Start position of the page
+    this.setState({
+      doTransform: true,
+      position: data.clickedItemData.position,
+      color: data.clickedItemData.color,
+    });
+  }
+
+  onTransitionDidEnd() {
+    // Transition is done, do your stuff here
+  }
+
+  transitionManuallyStart() {
+    // When this method exsits, `transition-appear-active` will not be added to the dom
+    // we will define our animation manually.
+    this.setState({
+      position: {
+        top: 0,
+        height: '100%',
+        left: 0,
+        right: 0,
+      },
+      doTransform: true,
+    });
+  }
+
+  transitionManuallyStop() {
+    // When this method exsits, `transition-appear-active` will not be removed
+    this.setState({
+      doTransform: false,
+    });
+  }
+
+  render() {
+    return (
+      <div
+        style={{
+          transform: this.state.doTransform ?
+            `translate3d(0, ${this.state.position.top}px, 0)` :
+              undefined,
+          height: this.state.doTransform ?
+            this.state.position.height : null,
+          left: this.state.doTransform ?
+            this.state.position.left : null,
+          right: this.state.doTransform ?
+            this.state.position.left : null,
+          backgroundColor: this.state.color,
+        }}
+        className="transition-item detail-page"
+      >
+        <Link to="/">
+          Item {this.props.params.itemId}
+        </Link>
+        <h1>
+          Detail page here
+        </h1>
+        <Link to="/">
+          Back
+        </Link>
+      </div>
+    );
+  }
+```
+
 
 # API
 TODO
