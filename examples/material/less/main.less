@@ -35,7 +35,10 @@ body {
   }
 
   &.transition-appear {
-    transition: transform 1s, left 1s, right 1s, height 1s;
+    transition: transform 1s cubic-bezier(0.7, 0, 0.25, 1),
+      left 1s cubic-bezier(0.7, 0, 0.25, 1),
+      right 1s cubic-bezier(0.7, 0, 0.25, 1),
+      height 1s cubic-bezier(0.7, 0, 0.25, 1);
   }
 
   &.transition-appear.transition-appear-active {

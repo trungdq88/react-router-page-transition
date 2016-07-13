@@ -53,7 +53,11 @@ body {
   }
 
   &.transition-appear {
-    transition: transform 0.5s, left 0.5s, width 0.5s, height 0.5s, border-radius 0.5s;
+    transition: transform 0.5s cubic-bezier(0.7, 0, 0.25, 1),
+      left 0.5s cubic-bezier(0.7, 0, 0.25, 1),
+      width 0.5s cubic-bezier(0.7, 0, 0.25, 1),
+      height 0.5s cubic-bezier(0.7, 0, 0.25, 1),
+      border-radius 0.5s cubic-bezier(0.7, 0, 0.25, 1);
   }
 
   &.transition-appear.transition-appear-active {
