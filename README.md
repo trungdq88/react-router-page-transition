@@ -105,6 +105,7 @@ export default class ItemDetailPage extends React.Component {
 
 ### CSS:
 Define animation using CSS
+
 ```less
 .trasition-wrapper {
   position: relative;
@@ -133,6 +134,8 @@ Define animation using CSS
   }
 }
 ```
+
+**See demo:** https://trungdq88.github.io/react-router-page-transition/simple/
 
 ## Example 2: Material design transition
 From a cool idea of [Material Motion](https://material.google.com/motion/material-motion.html#material-motion-how-does-material-move) that provide meaningful transition between pages.
@@ -287,6 +290,13 @@ export default class ItemDetailPage extends React.Component {
   }
 ```
 
+**See demo:** https://trungdq88.github.io/react-router-page-transition/material/
+
+## Example 3: Reveal effect
+
+Similar to the material, we use `border-radius` to animate the circle.
+
+**See demo:** https://trungdq88.github.io/react-router-page-transition/reveal/
 
 # API
 TODO
