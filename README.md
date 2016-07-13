@@ -19,20 +19,37 @@ and implement cool transitions like this:
 
 ## Simple zoom trasition
 
-### App component
+This is a simple transition: detail page zoom out from the middle.
+
+### Router
 ```js
+ReactDOM.render(
+  <Router history={hashHistory}>
+    <Route path="/" component={Home}>
+      <IndexRoute component={ListPage} />
+      <Route path="/detail/:itemId" component={ItemDetailPage} />
+    </Route>
+  </Router>, document.getElementById('app'));
+```
+
+### Home component
+```js
+import React from 'react';
 import PageTransition from 'react-router-page-transition';
 
-// Render
-<PageTransition>
-  {props.children}
-</PageTransition>
+export default (props) => (
+  <div>
+    <PageTransition>
+      {props.children}
+    </PageTransition>
+  </div>
+);
 ```
 
 ### DetailPage component
 Add class `transition-item` to your root element, we will use this to animate the page
 when route change.
-```js
+```jsx
 export default class ItemDetailPage extends React.Component {
   render() {
     return (
