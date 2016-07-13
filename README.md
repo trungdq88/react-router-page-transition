@@ -15,7 +15,14 @@ and implement cool transitions like this:
 |------|--------|------|
 |![simple](https://cloud.githubusercontent.com/assets/4214509/16784316/6dc99028-48b2-11e6-8f03-230e1178761b.gif)|![material](https://cloud.githubusercontent.com/assets/4214509/16781947/aa83ca34-48a7-11e6-8c93-dfdd794d7a28.gif) | ![reveal](https://cloud.githubusercontent.com/assets/4214509/16783423/1c58b880-48ae-11e6-97fb-5e92a7da1b40.gif)|
 
-# Usage
+# How it work?
+TODO
+
+Pros:
+- Keep page structure clean.
+- FLIP
+
+# Example
 
 ## Simple zoom trasition
 
@@ -93,19 +100,10 @@ Define animation using CSS
     transform: scale(1);
   }
 }
-.list-page {
-  padding: 20px;
-  background-color: #fff;
-  transition: opacity 0.5s;
-  height: 100vh;
-  box-sizing: border-box;
-
-  &.transition-appear {
-    opacity: 0.01;
-  }
-
-  &.transition-appear.transition-appear-active {
-    opacity: 1;
-  }
-}
 ```
+
+## Material design transition
+From a cool idea of [Material Motion](https://material.google.com/motion/material-motion.html#material-motion-how-does-material-move) that provide meaningful transition between pages.
+
+# API
+TODO
