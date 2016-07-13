@@ -13,7 +13,6 @@ export default class ItemDetailPage extends React.Component {
   }
 
   onTransitionWillStart(data) {
-    console.log(data);
     this.setState({
       doTransform: true,
       position: data.clickedItemData.position,
