@@ -19,6 +19,100 @@ and implement cool transitions like this:
 
     npm install react-router-page-transition --save
 
+# How it works?
+
+```jsx
+    <PageTransition>
+      {this.props.children}
+    </PageTransition>
+```
+
+- This component will render `{this.props.children}` inside a `<div class="transition-wrapper">...</div>`.
+- `{this.props.children}` must have `transition-item` class in its root element.
+
+
+```html
+    <div class="transition-wrapper">
+      <div id="list-page" class="transition-item">
+      ...
+      </div>
+    </div>
+```
+
+
+When the route change:
+
+1. New children will be append to the `<div class="transition-wrapper">...</div>`.
+    
+    ```html
+        <div class="transition-wrapper">
+          <div id="list-page" class="transition-item">
+          ...
+          </div>
+          <div id="detail-page" class="transition-item">
+          ...
+          </div>
+        </div>
+    ```
+
+2. `transition-appear` class will be added to the new children root element.
+    
+    ```html
+        <div class="transition-wrapper">
+          <div id="list-page" class="transition-item">
+          ...
+          </div>
+          <div id="detail-page" class="transition-item transition-appear">
+          ...
+          </div>
+        </div>
+    ```
+
+3. Right after then, `transition-appear-active` class will be added to the new children root element trigger the animation
+
+    ```html
+        <div class="transition-wrapper">
+          <div id="list-page" class="transition-item">
+          ...
+          </div>
+          <div id="detail-page" class="transition-item transition-appear transition-appear-active">
+          ...
+          </div>
+        </div>
+    ```
+
+4. After `timeout` (default 500ms), the old child will be removed from `<div class="transition-wrapper">...</div>`. After that `transition-item`, `transition-appear` and `transition-appear-active` will be removed from the new child root element.
+
+    ```html
+        <div class="transition-wrapper">
+          <div id="detail-page">
+          ...
+          </div>
+        </div>
+    ```
+
+**You'll need to define the transition in your CSS**
+
+Example: zoom animation
+
+```less
+.detail-page {
+  padding: 20px;
+  background-color: #03a9f4;
+  transition: transform 0.5s cubic-bezier(0.7, 0, 0.25, 1);
+
+  &.transition-appear {
+    transform: scale(0);
+  }
+
+  &.transition-appear.transition-appear-active {
+    transform: scale(1);
+  }
+}
+```
+
+Sometime it is impossible to implement your designer's awesome animation idea in just **only CSS**. In that case, you'll need the callbacks to customize your animation with **additional data**. See **API** document and example for more information.
+
 # API
 
 ## Properties:
@@ -93,8 +187,8 @@ and implement cool transitions like this:
 # When to use this?
 
 **Pros:**
- - Keep page structure clean.
  - Give you ability to implement complex animation like.
+ - Keep page structure clean.
 
 **Cons:**
  - Requires extra setup for the components
