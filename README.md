@@ -374,7 +374,7 @@ export default class Home extends React.Component {
 }
 ```
 
-## ItemDetailPage component
+### ItemDetailPage component
 This component will receive the callbacks with data from `PageTransition` component, then we can use tihs to animate our page as we want.
 
 ```js
@@ -452,6 +452,44 @@ export default class ItemDetailPage extends React.Component {
       </div>
     );
   }
+```
+
+### CSS
+
+```css
+.trasition-wrapper {
+  position: relative;
+  z-index: 1;
+  .transition-item {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+.detail-page {
+  padding: 10px 10px;
+  background-color: #03a9f4;
+  height: 100vh;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  a {
+    color: white;
+  }
+
+  &.transition-appear {
+    transition: transform 1s cubic-bezier(0.7, 0, 0.25, 1),
+      left 1s cubic-bezier(0.7, 0, 0.25, 1),
+      right 1s cubic-bezier(0.7, 0, 0.25, 1),
+      height 1s cubic-bezier(0.7, 0, 0.25, 1);
+  }
+
+  &.transition-appear.transition-appear-active {
+  }
+}
+
 ```
 
 **See demo:** https://trungdq88.github.io/react-router-page-transition/material/
