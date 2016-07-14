@@ -187,7 +187,7 @@ Sometime it is impossible to implement your designer's awesome animation idea in
 # When to use this?
 
 **Pros:**
- - Give you ability to implement complex animation like.
+ - Give you ability to implement complex animations / transitions.
  - Keep page structure clean.
 
 **Cons:**
