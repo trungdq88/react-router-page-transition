@@ -1,6 +1,6 @@
 {
   "name": "react-router-page-transition",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Highly customizable page transition component for your your React Router",
   "main": "lib/PageTransition.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "clean-demo": "rimraf demo-build/*",
     "build-demo": "npm run clean-demo && npm run webpack && cp examples/index.html demo-build/index.html",
     "build": "./node_modules/babel-cli/bin/babel.js src -d lib",
-     "deploy-demo": "cd demo-build && git add --all && git commit -m \"Release at $(date)\" && git push",
+    "deploy-demo": "cd demo-build && git add --all && git commit -m \"Release at $(date)\" && git push",
     "webpack": "webpack --colors --progress --config ./webpack/config"
   },
   "babel": {
