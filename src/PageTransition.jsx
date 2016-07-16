@@ -25,18 +25,15 @@ export default class PageTransition extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.children !== nextProps.children) {
-      const previousPathname = this.props.children.props.location.pathname;
       this.state[`child${this.state.nextChild}`] = nextProps.children;
       this.forceUpdate(() => {
         const child = this.refs[`child${this.state.nextChild}`];
         const dom = ReactDom.findDOMNode(child);
         let timeout = 0;
-        const att = dom.getAttribute('data-from-path');
 
         child.onTransitionWillStart && child.onTransitionWillStart(this.props.data);
 
-        if (dom.classList.contains('transition-item') &&
-            (att === null || att === previousPathname)) {
+        if (dom.classList.contains('transition-item')) {
           dom.classList.add('transition-appear');
           setTimeout(() => {
             if (child.transitionManuallyStart) {
