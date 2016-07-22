@@ -1,6 +1,6 @@
 {
   "name": "react-router-page-transition",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Highly customizable page transition component for your your React Router",
   "main": "lib/PageTransition.js",
   "scripts": {
