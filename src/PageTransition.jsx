@@ -64,7 +64,7 @@ export default class PageTransition extends React.Component {
         };
 
         // Wait for transition
-        const waitForTransition = new Promise(resolve => {
+        const waitForTransition = () => new Promise(resolve => {
           setTimeout(() => {
             // Swap child and remove the old child
             this.state.nextChild = this.state.nextChild === 1 ? 2 : 1;
