@@ -148,7 +148,7 @@ Sometime it is impossible to implement your designer's awesome animation idea in
     ```
 
 ## Callback on children component
-`PageTransition` component will call a several callbacks to its child component to provide useful data for the animation. Child components are changed via React Router when the route change.
+`PageTransition` component will call a several callbacks to its child component to provide useful data for the animation. Child components are changed via React Router when the route change. **Notice:** all these callbacks will be called in a **Promise chain**, so if you are handleing async tasks inside the callback (for example `setState`), make sure you **return a Promise** to make everything work properly.
 
 - **onTransitionWillStart(data)**: before the transition starts (before `transition-appear-active` class is added). `data` is the variable received from the `data` property of `PageTransition`.
 - **transitionManuallyStart(data)**: if you don't use `transition-appear-active` class in CSS to animate your page, you can define this method in the child component to do the animation mannually. `transition-appear-active` will not be added to the child's DOM when this method exists.
@@ -162,10 +162,14 @@ Sometime it is impossible to implement your designer's awesome animation idea in
     export default class ItemDetailPage extends React.Component {
       ...
       onTransitionWillStart(data) {
-        this.setState({ animating: false, postiton: data.position, opacity: 0 });
+        return new Promise(resolve => {
+            this.setState({ animating: false, postiton: data.position, opacity: 0 }, resolve);
+        });
       }
       transitionManuallyStart(data) {
-        this.setState({ animating: true, postiton: DEFAULT_POSITION, opacity: 1 });
+        return new Promise(resolve => {
+            this.setState({ animating: true, postiton: DEFAULT_POSITION, opacity: 1 }, resolve);
+        });
       }
       onTransitionDidStart(data) {
         // Animation is happening
@@ -174,7 +178,9 @@ Sometime it is impossible to implement your designer's awesome animation idea in
         // Animation is about to stop
       }
       transitionManuallyStop(data) {
-        this.setState({ animating: false });
+        return new Promise(resolve => {
+            this.setState({ animating: false }, resolve);
+        });
       }
       onTransitionDidEnd(data) {
         // Page successfully replaced and finished animate
