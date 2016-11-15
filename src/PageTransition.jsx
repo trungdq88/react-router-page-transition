@@ -3,7 +3,7 @@ import ReactDom from 'react-dom';
 
 const DEFAULT_TIMEOUT = 500;
 
-export default class PageTransition extends React.Component {
+export default (React = React, ReactDom = ReactDom) => class PageTransition extends React.Component {
 
   constructor(...args) {
     super(...args);

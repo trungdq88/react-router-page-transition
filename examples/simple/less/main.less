@@ -26,30 +26,35 @@ body {
 .detail-page {
   padding: 20px;
   background-color: #03a9f4;
-  transition: transform 0.5s cubic-bezier(0.7, 0, 0.25, 1);
+  transition: transform 0.5s, opacity 0.5s;
   height: 100vh;
   box-sizing: border-box;
 
   &.transition-appear {
-    transform: scale(0);
+    transform: translate3d(100%, 0, 0);
+    opacity: 0;
   }
 
   &.transition-appear.transition-appear-active {
-    transform: scale(1);
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
   }
 }
+
 .list-page {
   padding: 20px;
   background-color: #fff;
-  transition: opacity 0.5s;
+  transition: transform 0.5s, opacity 0.5s;
   height: 100vh;
   box-sizing: border-box;
 
   &.transition-appear {
-    opacity: 0.01;
+    transform: translate3d(-100%, 0, 0);
+    opacity: 0;
   }
 
   &.transition-appear.transition-appear-active {
+    transform: translate3d(0, 0, 0);
     opacity: 1;
   }
 }
