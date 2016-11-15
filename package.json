@@ -34,6 +34,14 @@
     "route"
   ],
   "author": "Trung Dinh Quang",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trungdq88/react-router-page-transition.git"
+  },
+  "bugs": {
+    "url": "https://github.com/trungdq88/react-router-page-transition/issues"
+  },
+  "homepage": "https://github.com/trungdq88/react-router-page-transition",
   "license": "ISC",
   "devDependencies": {
     "autoprefixer": "^6.3.6",
