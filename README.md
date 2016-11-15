@@ -21,6 +21,11 @@ and implement cool transitions like this:
 
 # How it works?
 
+
+```
+const PageTransition = require('react-router-page-transition').default(React, ReactDom);
+```
+
 ```jsx
     <PageTransition>
       {this.props.children}
