@@ -28,6 +28,7 @@ export default class Home extends React.Component {
       <div>
         <PageTransition
           timeout={500}
+          animateOnInit
           data={{ clickedItemData: this.state.clickedItemData }}
         >
           {this.props.children}
