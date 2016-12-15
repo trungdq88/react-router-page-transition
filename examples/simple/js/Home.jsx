@@ -5,7 +5,9 @@ const PageTransition = require('../../../src/PageTransition.jsx').default(React,
 
 export default (props) => (
   <div>
-    <PageTransition>
+    <PageTransition
+      timeout={500}
+    >
       {props.children}
     </PageTransition>
   </div>

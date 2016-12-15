@@ -13,7 +13,6 @@ export default class ItemDetailPage extends React.Component {
   }
 
   onTransitionWillStart(data) {
-    console.log(data);
     if (!data.clickedItemData) {
       // Default animate position if user goto this page directly
 

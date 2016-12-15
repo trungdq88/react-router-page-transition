@@ -25,11 +25,12 @@ export default (
       };
     }
     this.transite = this.transite.bind(this);
+    this.getRef = this.getRef.bind(this);
   }
 
   componentDidMount() {
-    if (!this.props.animateOnInit && this.state.child1 === null) {
-      const child = this.refs.child1;
+    if (!this.props.animateOnInit) {
+      const child = this.getRef('child1');
       if (child) {
         const dom = ReactDom.findDOMNode(child);
         child.onTransitionDidEnd && child.onTransitionDidEnd(this.props.data);
@@ -47,11 +48,21 @@ export default (
     }
   }
 
+  getRef(ref) {
+    let child = this.refs[ref];
+    // Dirty way to check if the component is
+    // wrapped with react-redux Connect
+    if (child.getWrappedInstance) {
+      child = child.getWrappedInstance();
+    }
+    return child;
+  }
+
   transite(nextChild, isInit) {
     // Render the new children
     this.state[`child${this.state.nextChild}`] = nextChild;
     this.forceUpdate(() => {
-      const child = this.refs[`child${this.state.nextChild}`];
+      const child = this.getRef(`child${this.state.nextChild}`);
       const dom = ReactDom.findDOMNode(child);
       let timeout = 0;
 
@@ -145,8 +156,6 @@ export default (
   }
 
   render() {
-    console.log('animateOnIni: ', this.props.animateOnInit);
-    console.log('init: ', this.state.initDone);
     return (
       <div className="trasition-wrapper">
         {React.Children.map(this.state.child1, element =>

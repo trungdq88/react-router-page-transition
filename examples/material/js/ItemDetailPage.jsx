@@ -13,6 +13,15 @@ export default class ItemDetailPage extends React.Component {
   }
 
   onTransitionWillStart(data) {
+    if (!data.clickedItemData) {
+      // Default animate position if user goto this page directly
+      this.setState({
+        doTransform: true,
+        position: { top: 0, left: 0, height: '100%', width: 10 },
+        color: 'gray',
+      });
+      return;
+    }
     this.setState({
       doTransform: true,
       position: data.clickedItemData.position,
