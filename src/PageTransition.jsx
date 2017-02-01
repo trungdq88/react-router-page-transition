@@ -52,7 +52,7 @@ export default (
     let child = this.refs[ref];
     // Dirty way to check if the component is
     // wrapped with react-redux Connect
-    if (child.getWrappedInstance) {
+    if (child && child.getWrappedInstance) {
       child = child.getWrappedInstance();
     }
     return child;
@@ -62,14 +62,21 @@ export default (
     // Render the new children
     this.state[`child${this.state.nextChild}`] = nextChild;
     this.forceUpdate(() => {
+      const prevChild = this.getRef(`child${this.state.nextChild === 1 ? 2 : 1}`);
       const newChild = this.getRef(`child${this.state.nextChild}`);
+      const prevChildDom = ReactDom.findDOMNode(prevChild);
       const newChildDom = ReactDom.findDOMNode(newChild);
       let timeout = 0;
 
       // Before add appear class
       const willStart = () => {
         if (newChild.onTransitionWillStart) {
-          return newChild.onTransitionWillStart(this.props.data) || Promise.resolve();
+          return newChild.onTransitionWillStart(this.props.data) ||
+            Promise.resolve();
+        }
+        if (prevChild && prevChild.onTransitionLeaveWillStart) {
+          return prevChild.onTransitionLeaveWillStart(this.props.data) ||
+            Promise.resolve();
         }
         return Promise.resolve();
       };
@@ -81,9 +88,21 @@ export default (
           newChildDom.classList.add('transition-appear');
           newChildDom.offsetHeight; // Trigger layout to make sure transition happen
           if (newChild.transitionManuallyStart) {
-            return newChild.transitionManuallyStart(this.props.data, start) || Promise.resolve();
+            return newChild.transitionManuallyStart(this.props.data, start) ||
+              Promise.resolve();
           }
           newChildDom.classList.add('transition-appear-active');
+        }
+        if (prevChildDom) {
+          prevChildDom.classList.add('transition-leave');
+          prevChildDom.classList.add('transition-item');
+          timeout = this.props.timeout || DEFAULT_TIMEOUT;
+          prevChildDom.offsetHeight; // Trigger layout to make sure transition happen
+          if (prevChild.transitionManuallyLeaveStart) {
+            return prevChild.transitionManuallyLeaveStart(this.props.data, start) ||
+              Promise.resolve();
+          }
+          prevChildDom.classList.add('transition-leave-active');
         }
         return Promise.resolve();
       };
@@ -91,7 +110,12 @@ export default (
       // After add classes
       const didStart = () => {
         if (newChild.onTransitionDidStart) {
-          return newChild.onTransitionDidStart(this.props.data) || Promise.resolve();
+          return newChild.onTransitionDidStart(this.props.data) ||
+            Promise.resolve();
+        }
+        if (prevChild && prevChild.onTransitionDidStartLeave) {
+          return prevChild.onTransitionLeaveDidStart(this.props.data) ||
+            Promise.resolve();
         }
         return Promise.resolve();
       };
@@ -109,7 +133,12 @@ export default (
       // Before remove classes
       const willEnd = () => {
         if (newChild.onTransitionWillEnd) {
-          return newChild.onTransitionWillEnd(this.props.data) || Promise.resolve();
+          return newChild.onTransitionWillEnd(this.props.data) ||
+            Promise.resolve();
+        }
+        if (prevChild && prevChild.onTransitionLeaveWillEnd) {
+          return prevChild.onTransitionLeaveWillEnd(this.props.data) ||
+            Promise.resolve();
         }
         return Promise.resolve();
       };
@@ -121,9 +150,20 @@ export default (
           newChildDom.classList.remove('transition-item');
 
           if (newChild.transitionManuallyStop) {
-            return newChild.transitionManuallyStop(this.props.data) || Promise.resolve();
+            return newChild.transitionManuallyStop(this.props.data) ||
+              Promise.resolve();
           }
           newChildDom.classList.remove('transition-appear-active');
+        }
+        if (prevChildDom && prevChildDom.classList.contains('transition-item')) {
+          prevChildDom.classList.remove('transition-leave');
+          prevChildDom.classList.remove('transition-item');
+
+          if (prevChild.transitionLeaveManuallyStop) {
+            return prevChild.transitionLeaveManuallyStop(this.props.data) ||
+              Promise.resolve();
+          }
+          prevChildDom.classList.remove('transition-leave-active');
         }
         return Promise.resolve();
       };
@@ -133,7 +173,12 @@ export default (
         this.props.onLoad && this.props.onLoad();
 
         if (newChild.onTransitionDidEnd) {
-          return newChild.onTransitionDidEnd(this.props.data) || Promise.resolve();
+          return newChild.onTransitionDidEnd(this.props.data) ||
+            Promise.resolve();
+        }
+        if (prevChild && prevChild.onTransitionLeaveDidEnd) {
+          return prevChild.onTransitionLeaveDidEnd(this.props.data) ||
+            Promise.resolve();
         }
         return Promise.resolve();
       };
