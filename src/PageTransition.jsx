@@ -98,8 +98,8 @@ export default (
           prevChildDom.classList.add('transition-item');
           timeout = this.props.timeout || DEFAULT_TIMEOUT;
           prevChildDom.offsetHeight; // Trigger layout to make sure transition happen
-          if (prevChild.transitionManuallyLeaveStart) {
-            return prevChild.transitionManuallyLeaveStart(this.props.data, start) ||
+          if (prevChild.transitionLeaveManuallyStart) {
+            return prevChild.transitionLeaveManuallyStart(this.props.data, start) ||
               Promise.resolve();
           }
           prevChildDom.classList.add('transition-leave-active');
