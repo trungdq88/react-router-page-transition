@@ -74,6 +74,7 @@
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
+    "promise-queue": "^2.2.3",
     "react": "^15.1.0",
     "react-dom": "^15.1.0"
   }
