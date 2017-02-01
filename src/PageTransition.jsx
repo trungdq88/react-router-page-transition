@@ -15,7 +15,6 @@ export default (
         child1: null,
         child2: null,
         nextChild: 1,
-        isAnimating: false,
       };
     } else {
       this.state = {
@@ -64,7 +63,6 @@ export default (
     return new Promise((transiteDone, transiteFailed) => {
       // Render the new children
       this.state[`child${this.state.nextChild}`] = nextChild;
-      this.state.isAnimating = true;
       this.forceUpdate(() => {
         const prevChild = this.getRef(`child${this.state.nextChild === 1 ? 2 : 1}`);
         const newChild = this.getRef(`child${this.state.nextChild}`);
@@ -194,10 +192,8 @@ export default (
           .then(end)
           .then(didEnd)
           .then(() => {
-            this.setState({ isAnimating: false }, () => {
-              this.props.onLoad && this.props.onLoad();
-              transiteDone();
-            });
+            this.props.onLoad && this.props.onLoad();
+            transiteDone();
           })
           .catch(transiteFailed)
 
