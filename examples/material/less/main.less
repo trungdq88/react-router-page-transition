@@ -4,8 +4,8 @@ body {
 
 .list-item {
   display: block;
-  padding: 10px;
   margin-bottom: 10px;
+  padding: 10px;
   color: #fff;
   &:last-child {
     margin-bottom: 0;
@@ -18,17 +18,17 @@ body {
   .transition-item {
     position: fixed;
     top: 0;
-    left: 0;
     right: 0;
+    left: 0;
   }
 }
 
 .detail-page {
-  padding: 10px 10px;
-  background-color: #03a9f4;
-  height: 100vh;
-  box-sizing: border-box;
   overflow: hidden;
+  box-sizing: border-box;
+  padding: 10px 10px;
+  height: 100vh;
+  background-color: #03a9f4;
 
   a {
     color: white;
@@ -36,7 +36,7 @@ body {
 
   &.transition-appear {
     transition: transform 1s cubic-bezier(0.7, 0, 0.25, 1),
-      left 1s cubic-bezier(0.7, 0, 0.25, 1),
+    left 1s cubic-bezier(0.7, 0, 0.25, 1),
       right 1s cubic-bezier(0.7, 0, 0.25, 1),
       height 1s cubic-bezier(0.7, 0, 0.25, 1);
   }
@@ -45,11 +45,12 @@ body {
   }
 }
 .list-page {
+  z-index: 2;
+  box-sizing: border-box;
   padding: 20px;
+  height: 100vh;
   background-color: #fff;
   transition: opacity 1s;
-  height: 100vh;
-  box-sizing: border-box;
 
   &.transition-appear {
     opacity: 0.01;

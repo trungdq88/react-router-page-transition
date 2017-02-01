@@ -52,7 +52,7 @@ export default (
     let child = this.refs[ref];
     // Dirty way to check if the component is
     // wrapped with react-redux Connect
-    if (child.getWrappedInstance) {
+    if (child && child.getWrappedInstance) {
       child = child.getWrappedInstance();
     }
     return child;
@@ -62,36 +62,60 @@ export default (
     // Render the new children
     this.state[`child${this.state.nextChild}`] = nextChild;
     this.forceUpdate(() => {
-      const child = this.getRef(`child${this.state.nextChild}`);
-      const dom = ReactDom.findDOMNode(child);
+      const prevChild = this.getRef(`child${this.state.nextChild === 1 ? 2 : 1}`);
+      const newChild = this.getRef(`child${this.state.nextChild}`);
+      const prevChildDom = ReactDom.findDOMNode(prevChild);
+      const newChildDom = ReactDom.findDOMNode(newChild);
       let timeout = 0;
 
       // Before add appear class
       const willStart = () => {
-        if (child.onTransitionWillStart) {
-          return child.onTransitionWillStart(this.props.data) || Promise.resolve();
+        if (newChild.onTransitionWillStart) {
+          return newChild.onTransitionWillStart(this.props.data) ||
+            Promise.resolve();
+        }
+        if (prevChild && prevChild.onTransitionLeaveWillStart) {
+          return prevChild.onTransitionLeaveWillStart(this.props.data) ||
+            Promise.resolve();
         }
         return Promise.resolve();
       };
 
       // Add appear class and active class (or trigger manual start)
       const start = () => {
-        if (dom.classList.contains('transition-item')) {
+        if (newChildDom.classList.contains('transition-item')) {
           timeout = this.props.timeout || DEFAULT_TIMEOUT;
-          dom.classList.add('transition-appear');
-          dom.offsetHeight; // Trigger layout to make sure transition happen
-          if (child.transitionManuallyStart) {
-            return child.transitionManuallyStart(this.props.data, start) || Promise.resolve();
+          newChildDom.classList.add('transition-appear');
+          newChildDom.offsetHeight; // Trigger layout to make sure transition happen
+          if (newChild.transitionManuallyStart) {
+            return newChild.transitionManuallyStart(this.props.data, start) ||
+              Promise.resolve();
           }
-          dom.classList.add('transition-appear-active');
+          newChildDom.classList.add('transition-appear-active');
+        }
+        if (prevChildDom) {
+          prevChildDom.classList.add('transition-leave');
+          prevChildDom.classList.add('transition-item');
+          timeout = this.props.timeout || DEFAULT_TIMEOUT;
+          prevChildDom.offsetHeight; // Trigger layout to make sure transition happen
+          if (prevChild.transitionLeaveManuallyStart) {
+            return prevChild.transitionLeaveManuallyStart(this.props.data, start) ||
+              Promise.resolve();
+          }
+          prevChildDom.classList.add('transition-leave-active');
         }
         return Promise.resolve();
       };
 
       // After add classes
       const didStart = () => {
-        if (child.onTransitionDidStart) {
-          return child.onTransitionDidStart(this.props.data) || Promise.resolve();
+        if (newChild.onTransitionDidStart) {
+          return newChild.onTransitionDidStart(this.props.data) ||
+            Promise.resolve();
+        }
+        if (prevChild && prevChild.onTransitionDidStartLeave) {
+          return prevChild.onTransitionLeaveDidStart(this.props.data) ||
+            Promise.resolve();
         }
         return Promise.resolve();
       };
@@ -108,22 +132,38 @@ export default (
 
       // Before remove classes
       const willEnd = () => {
-        if (child.onTransitionWillEnd) {
-          return child.onTransitionWillEnd(this.props.data) || Promise.resolve();
+        if (newChild.onTransitionWillEnd) {
+          return newChild.onTransitionWillEnd(this.props.data) ||
+            Promise.resolve();
+        }
+        if (prevChild && prevChild.onTransitionLeaveWillEnd) {
+          return prevChild.onTransitionLeaveWillEnd(this.props.data) ||
+            Promise.resolve();
         }
         return Promise.resolve();
       };
 
       // Remove appear and active class (or trigger manual end)
       const end = () => {
-        if (dom.classList.contains('transition-item')) {
-          dom.classList.remove('transition-appear');
-          dom.classList.remove('transition-item');
+        if (newChildDom.classList.contains('transition-item')) {
+          newChildDom.classList.remove('transition-appear');
+          newChildDom.classList.remove('transition-item');
 
-          if (child.transitionManuallyStop) {
-            return child.transitionManuallyStop(this.props.data) || Promise.resolve();
+          if (newChild.transitionManuallyStop) {
+            return newChild.transitionManuallyStop(this.props.data) ||
+              Promise.resolve();
           }
-          dom.classList.remove('transition-appear-active');
+          newChildDom.classList.remove('transition-appear-active');
+        }
+        if (prevChildDom && prevChildDom.classList.contains('transition-item')) {
+          prevChildDom.classList.remove('transition-leave');
+          prevChildDom.classList.remove('transition-item');
+
+          if (prevChild.transitionLeaveManuallyStop) {
+            return prevChild.transitionLeaveManuallyStop(this.props.data) ||
+              Promise.resolve();
+          }
+          prevChildDom.classList.remove('transition-leave-active');
         }
         return Promise.resolve();
       };
@@ -132,8 +172,13 @@ export default (
       const didEnd = () => {
         this.props.onLoad && this.props.onLoad();
 
-        if (child.onTransitionDidEnd) {
-          return child.onTransitionDidEnd(this.props.data) || Promise.resolve();
+        if (newChild.onTransitionDidEnd) {
+          return newChild.onTransitionDidEnd(this.props.data) ||
+            Promise.resolve();
+        }
+        if (prevChild && prevChild.onTransitionLeaveDidEnd) {
+          return prevChild.onTransitionLeaveDidEnd(this.props.data) ||
+            Promise.resolve();
         }
         return Promise.resolve();
       };

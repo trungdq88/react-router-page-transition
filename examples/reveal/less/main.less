@@ -3,26 +3,28 @@ body {
 }
 
 .text-center {
-  text-align: center;
   display: block;
+  text-align: center;
 }
 
 .list-page {
   display: flex;
+
   flex-wrap: wrap;
 }
 
 .list-item {
-  @size: 100px;
   display: block;
+  box-sizing: border-box;
   padding: 10px;
-  color: #fff;
+  padding: 10px;
   width: @size;
   height: @size;
   border-radius: (@size + 20) / 2;
-  padding: 10px;
+  color: #fff;
   text-align: center;
-  box-sizing: border-box;
+
+  @size: 100px;
 }
 
 .trasition-wrapper {
@@ -31,22 +33,22 @@ body {
   .transition-item {
     position: fixed;
     top: 0;
-    left: 0;
     right: 0;
+    left: 0;
   }
 }
 
 .detail-page {
-  padding: 10px 10px;
-  background-color: #03a9f4;
-  height: 100vh;
-  box-sizing: border-box;
   overflow: hidden;
+  box-sizing: border-box;
+  padding: 10px 10px;
+  height: 100vh;
+  background-color: #03a9f4;
 
   a {
     color: white;
   }
-  
+
   h1 {
     margin-top: 60px;
     color: #fff
@@ -64,11 +66,12 @@ body {
   }
 }
 .list-page {
+  z-index: 2;
+  box-sizing: border-box;
   padding: 20px;
+  height: 100vh;
   background-color: #fff;
   transition: opacity 0.5s;
-  height: 100vh;
-  box-sizing: border-box;
 
   &.transition-appear {
     opacity: 0.01;
