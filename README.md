@@ -19,10 +19,10 @@ and implement cool transitions like this:
 
     npm install react-router-page-transition --save
 
-# How it works?
+# Add to your project
 
 
-```
+```js
 const PageTransition = require('react-router-page-transition').default(React, ReactDom);
 ```
 
@@ -32,7 +32,9 @@ const PageTransition = require('react-router-page-transition').default(React, Re
     </PageTransition>
 ```
 
-- This component will render `{this.props.children}` inside a `<div class="transition-wrapper">...</div>`.
+# How it works
+
+- `PageTransition` component renders `{this.props.children}` inside a `<div class="trasition-wrapper">...</div>`.
 - `{this.props.children}` must have `transition-item` class in its root element.
 
 
@@ -47,10 +49,10 @@ const PageTransition = require('react-router-page-transition').default(React, Re
 
 When the route change:
 
-1. New children will be append to the `<div class="transition-wrapper">...</div>`.
+1. New children will be append to the `<div class="trasition-wrapper">...</div>`.
     
     ```html
-        <div class="transition-wrapper">
+        <div class="trasition-wrapper">
           <div id="list-page" class="transition-item">
           ...
           </div>
@@ -60,10 +62,10 @@ When the route change:
         </div>
     ```
 
-2. `transition-appear` class will be added to the new children root element.
+2. `transition-appear` class will be added to the new children root element. `transition-leave` will be added to the existing children root element.
     
     ```html
-        <div class="transition-wrapper">
+        <div class="trasition-wrapper">
           <div id="list-page" class="transition-item">
           ...
           </div>
@@ -73,10 +75,10 @@ When the route change:
         </div>
     ```
 
-3. Right after then, `transition-appear-active` class will be added to the new children root element trigger the animation
+3. Right after then, `transition-appear-active` and `transition-leave-active` will be added to the new children and the old children's root element, trigger the animation
 
     ```html
-        <div class="transition-wrapper">
+        <div class="trasition-wrapper">
           <div id="list-page" class="transition-item">
           ...
           </div>
@@ -86,7 +88,7 @@ When the route change:
         </div>
     ```
 
-4. After `timeout` (default 500ms), the old child will be removed from `<div class="transition-wrapper">...</div>`. After that `transition-item`, `transition-appear` and `transition-appear-active` will be removed from the new child root element.
+4. After `timeout` (default 500ms), the old child will be removed from `<div class="transition-wrapper">...</div>`. After that `transition-item`, `transition-appear`, `transition-appear-active`, `transition-leave` and `transition-leave-active` will all be removed from the new childs.
 
     ```html
         <div class="transition-wrapper">
@@ -98,25 +100,40 @@ When the route change:
 
 **You'll need to define the transition in your CSS**
 
-Example: zoom animation
+Example: sliding animation
 
 ```less
 .detail-page {
+  overflow: auto;
+  box-sizing: border-box;
   padding: 20px;
+  height: 100vh;
   background-color: #03a9f4;
-  transition: transform 0.5s cubic-bezier(0.7, 0, 0.25, 1);
+  transition: transform 0.5s, opacity 0.5s;
 
   &.transition-appear {
-    transform: scale(0);
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
   }
 
   &.transition-appear.transition-appear-active {
-    transform: scale(1);
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  &.transition-leave {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  &.transition-leave.transition-leave-active {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
   }
 }
+
 ```
 
-Sometime it is impossible to implement your designer's awesome animation idea in just **only CSS**. In that case, you'll need the callbacks to customize your animation with **additional data**. See **API** document and example for more information.
+Sometimes it is impossible to implement your designer's awesome animation idea in just **only CSS**. In that case, you'll need the callbacks to customize your animation with **additional data**. See **API** document and example for more information.
 
 # API
 
@@ -141,7 +158,7 @@ Sometime it is impossible to implement your designer's awesome animation idea in
         </PageTransition>
     ```
 
-- **onLoad**: this callback will be call after the new page is finished replaced and animated.
+- **onLoad**: this callback will be call after the new page is finished replaced.
 
     Example:
     ```jsx
@@ -153,7 +170,9 @@ Sometime it is impossible to implement your designer's awesome animation idea in
     ```
 
 ## Callback on children component
-`PageTransition` component will call a several callbacks to its child component to provide useful data for the animation. Child components are changed via React Router when the route change. **Notice:** all these callbacks will be called in a **Promise chain**, so if you are handleing async tasks inside the callback (for example `setState`), make sure you **return a Promise** to make everything work properly.
+`PageTransition` component calls a several callbacks to its child component to pass user defined additional data for the animation. Child components are mounted via React Router when the route change.
+
+**Notice:** all these callbacks will be called in a **Promise chain**, so if you are handleing async tasks inside the callback (for example `setState`), make sure you **return a Promise** to make everything work properly.
 
 - **onTransitionWillStart(data)**: before the transition starts (before `transition-appear-active` class is added). `data` is the variable received from the `data` property of `PageTransition`.
 - **transitionManuallyStart(data)**: if you don't use `transition-appear-active` class in CSS to animate your page, you can define this method in the child component to do the animation mannually. `transition-appear-active` will not be added to the child's DOM when this method exists.
@@ -194,6 +213,20 @@ Sometime it is impossible to implement your designer's awesome animation idea in
       
       ...
     ```
+    
+Similar callbacks for **leave** event:
+
+- onTransitionLeaveWillStart(data)
+- transitionLeaveManuallyStart(data)
+- onTransitionLeaveDidStart(data)
+- onTransitionLeaveWillEnd(data)
+- transitionLeaveManuallyStop(data)
+- onTransitionLeaveDidEnd(data)
+
+## Available CSS functional class names
+
+- `transition-appear`, `transition-appear-active`, `transition-leave`, `transition-leave-active`.
+- Root element of the transited page must have `transition-item` class.
 
 # When to use this?
 
@@ -289,26 +322,66 @@ Define animation using CSS
   .transition-item {
     position: fixed;
     top: 0;
-    left: 0;
     right: 0;
+    left: 0;
   }
 }
-
 .detail-page {
-  padding: 20px;
-  background-color: #03a9f4;
-  transition: transform 0.5s;
-  height: 100vh;
+  overflow: auto;
   box-sizing: border-box;
+  padding: 20px;
+  height: 100vh;
+  background-color: #03a9f4;
+  transition: transform 0.5s, opacity 0.5s;
 
   &.transition-appear {
-    transform: scale(0);
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
   }
 
   &.transition-appear.transition-appear-active {
-    transform: scale(1);
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  &.transition-leave {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  &.transition-leave.transition-leave-active {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
   }
 }
+.list-page {
+  overflow: auto;
+  box-sizing: border-box;
+  padding: 20px;
+  height: 100vh;
+  background-color: #fff;
+  transition: transform 0.5s, opacity 0.5s;
+  transform: translate3d(0, 0, 0);
+
+  &.transition-appear {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  &.transition-appear.transition-appear-active {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  &.transition-leave {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  &.transition-leave.transition-leave-active {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
 ```
 
 **See demo:** https://trungdq88.github.io/react-router-page-transition/simple/
