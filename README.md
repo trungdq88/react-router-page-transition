@@ -249,7 +249,8 @@ export default class ListPage extends React.Component {
 ### Home component
 ```js
 import React from 'react';
-import PageTransition from 'react-router-page-transition';
+import ReactDom from 'react-dom';
+const PageTransition = require('react-router-page-transition').default(React, ReactDom);
 
 export default (props) => (
   <div>
