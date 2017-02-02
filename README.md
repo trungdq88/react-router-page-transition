@@ -21,15 +21,14 @@ and implement cool transitions like this:
 
 # Add to your project
 
-
 ```js
 import PageTransition from 'react-router-page-transition';
 ```
 
 ```jsx
-    <PageTransition>
-      {this.props.children}
-    </PageTransition>
+<PageTransition>
+  {this.props.children}
+</PageTransition>
 ```
 
 # How it works
@@ -137,16 +136,16 @@ Sometimes it is impossible to implement your designer's awesome animation idea i
 
 # API
 
-## Properties:
+## Properties
 - **timeout**: transition duration in milisecond, this must be the same with the `transition-duration` in your CSS.
-   
+
    Example:
     ```jsx
         <PageTransition timeout={500}>
           {props.children}
         </PageTransition>
     ```
-    
+
 - **data**: custom data to send to the page component via `onTransitionWillStart`, `onTransitionDidEnd`, `transitionManuallyStart`, `transitionManuallyEnd`.
 
     Example:
@@ -210,10 +209,10 @@ Sometimes it is impossible to implement your designer's awesome animation idea i
         // Page successfully replaced and finished animate
         this.callMyBusinessApi();
       }
-      
+
       ...
     ```
-    
+
 Similar callbacks for **leave** event:
 
 - onTransitionLeaveWillStart(data)
@@ -227,6 +226,23 @@ Similar callbacks for **leave** event:
 
 - `transition-appear`, `transition-appear-active`, `transition-leave`, `transition-leave-active`.
 - Root element of the transited page must have `transition-item` class.
+
+## Using with Redux
+
+By default, `PageTransition` will animates its children when `componentWillReceiveProps` is triggered. It compares `this.props.children !== nextProps.children` to know if the page has changed (ex: move from page Login to page AdminPanel).
+
+When using `PageTransition` with Redux, you may end up having the animation triggered everytime the Redux state changes (ex: state change when you enter username, `componentWillReceiveProps` is triggered but the page is still Login page). In order to resolve this, you can use `data-transition-id` for the child components.
+
+    <PageTransition>
+      {isLoggedIn() ?
+        <AdminPanel data-transition-id="admin-page" ... />
+        :
+        <Login data-transition-id="login-page" ... />
+      }
+    </PageTransition>
+
+When `data-transition-id` prop is provided, `PageTransition` will use this value
+to compare the childrens. Now you can control exactly when will the pages are changed.
 
 # When to use this?
 
@@ -260,7 +276,7 @@ ReactDOM.render(
 export default class ListPage extends React.Component {
 
   ...
-  
+
   render() {
     return (
       <div className="transition-item list-page">
