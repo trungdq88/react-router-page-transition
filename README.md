@@ -34,7 +34,7 @@ import PageTransition from 'react-router-page-transition';
 
 # How it works
 
-- `PageTransition` component renders `{this.props.children}` inside a `<div class="trasition-wrapper">...</div>`.
+- `PageTransition` component renders `{this.props.children}` inside a `<div class="transition-wrapper">...</div>`.
 - `{this.props.children}` must have `transition-item` class in its root element.
 
 
@@ -49,10 +49,10 @@ import PageTransition from 'react-router-page-transition';
 
 When the route change:
 
-1. New children will be append to the `<div class="trasition-wrapper">...</div>`.
-    
+1. New children will be append to the `<div class="transition-wrapper">...</div>`.
+
     ```html
-        <div class="trasition-wrapper">
+        <div class="transition-wrapper">
           <div id="list-page" class="transition-item">
           ...
           </div>
@@ -63,9 +63,9 @@ When the route change:
     ```
 
 2. `transition-appear` class will be added to the new children root element. `transition-leave` will be added to the existing children root element.
-    
+
     ```html
-        <div class="trasition-wrapper">
+        <div class="transition-wrapper">
           <div id="list-page" class="transition-item">
           ...
           </div>
@@ -78,7 +78,7 @@ When the route change:
 3. Right after then, `transition-appear-active` and `transition-leave-active` will be added to the new children and the old children's root element, trigger the animation
 
     ```html
-        <div class="trasition-wrapper">
+        <div class="transition-wrapper">
           <div id="list-page" class="transition-item">
           ...
           </div>
@@ -316,7 +316,7 @@ export default class ItemDetailPage extends React.Component {
 Define animation using CSS
 
 ```less
-.trasition-wrapper {
+.transition-wrapper {
   position: relative;
   z-index: 1;
   .transition-item {
@@ -542,7 +542,7 @@ export default class ItemDetailPage extends React.Component {
 ### CSS
 
 ```css
-.trasition-wrapper {
+.transition-wrapper {
   position: relative;
   z-index: 1;
   .transition-item {
