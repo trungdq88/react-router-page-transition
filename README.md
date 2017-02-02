@@ -23,7 +23,7 @@ and implement cool transitions like this:
 
 
 ```js
-const PageTransition = require('react-router-page-transition').default(React, ReactDom);
+import PageTransition from 'react-router-page-transition';
 ```
 
 ```jsx
@@ -283,7 +283,7 @@ export default class ListPage extends React.Component {
 ```js
 import React from 'react';
 import ReactDom from 'react-dom';
-const PageTransition = require('react-router-page-transition').default(React, ReactDom);
+import PageTransition from 'react-router-page-transition';
 
 export default (props) => (
   <div>
