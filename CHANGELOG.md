@@ -14,11 +14,13 @@
 - `PageTransition` can now be used to wrap Redux connected components using
 `data-transition-id` property. Example:
 
-        <PageTransition>
-          {isLoggedIn() ?
-            <AdminPanel data-transition-id="admin-page" ... />
-            :
-            <Login data-transition-id="login-page" ... />
-          }
-        </PageTransition>
+```jsx
+<PageTransition>
+  {isLoggedIn() ?
+    <AdminPanel data-transition-id="admin-page" ... />
+    :
+    <Login data-transition-id="login-page" ... />
+  }
+</PageTransition>
+```
 

@@ -233,6 +233,7 @@ By default, `PageTransition` will animates its children when `componentWillRecei
 
 When using `PageTransition` with Redux, you may end up having the animation triggered everytime the Redux state changes (ex: state change when you enter username, `componentWillReceiveProps` is triggered but the page is still Login page). In order to resolve this, you can use `data-transition-id` for the child components.
 
+```jsx
     <PageTransition>
       {isLoggedIn() ?
         <AdminPanel data-transition-id="admin-page" ... />
@@ -240,6 +241,7 @@ When using `PageTransition` with Redux, you may end up having the animation trig
         <Login data-transition-id="login-page" ... />
       }
     </PageTransition>
+```
 
 When `data-transition-id` prop is provided, `PageTransition` will use this value
 to compare the childrens. Now you can control exactly when will the pages are changed.
