@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactDom from 'react-dom';
-const PageTransition = require('../../../src/PageTransition.jsx').default(React, ReactDom);
+import PageTransition from '../../../src/PageTransition.jsx';
 
 export default (props) => (
   <div>
