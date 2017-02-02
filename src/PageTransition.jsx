@@ -226,7 +226,7 @@ export default class PageTransition extends React.Component {
 
   render() {
     return (
-      <div className="trasition-wrapper">
+      <div className="transition-wrapper">
         {React.Children.map(this.state.child1, element =>
             React.cloneElement(element, { ref: 'child1' })
         )}
