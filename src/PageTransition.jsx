@@ -1,12 +1,10 @@
-import FallbackReact from 'react';
-import FallbackReactDom from 'react-dom';
+import React from 'react';
+import ReactDom from 'react-dom';
 import Queue from 'promise-queue';
 
 const DEFAULT_TIMEOUT = 500;
 
-export default (
-  React = FallbackReact, ReactDom = FallbackReactDom
-) => class PageTransition extends React.Component {
+export default class PageTransition extends React.Component {
 
   constructor(...args) {
     super(...args);
