@@ -41,9 +41,34 @@ export default class PageTransition extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // If there is new children
-    if (this.props.children !== nextProps.children) {
+    const transitNewChild = () => {
       this.queue.add(() => this.transite(nextProps.children));
+    };
+    const updateChild = () => {
+      const currentChild = this.state.nextChild === 1 ? 2 : 1;
+      this.state[`child${currentChild}`] = nextProps.children;
+      this.forceUpdate();
+    };
+
+    // TODO: explain below
+    if (
+      this.props.children.props['data-transition-id'] &&
+      nextProps.children.props['data-transition-id']
+    ) {
+      if (
+        this.props.children.props['data-transition-id'] !==
+        nextProps.children.props['data-transition-id']
+      ) {
+        transitNewChild();
+      } else {
+        updateChild();
+      }
+    } else {
+      if (this.props.children !== nextProps.children) {
+        transitNewChild();
+      } else {
+        updateChild();
+      }
     }
   }
 
