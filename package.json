@@ -71,11 +71,11 @@
     "template-html-loader": "0.0.3",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.14.1"
-  },
-  "dependencies": {
-    "promise-queue": "^2.2.3",
+    "webpack-dev-server": "^1.14.1",
     "react": "^15.1.0",
     "react-dom": "^15.1.0"
+  },
+  "dependencies": {
+    "promise-queue": "^2.2.3"
   }
 }
