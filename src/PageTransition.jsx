@@ -50,8 +50,8 @@ export default class PageTransition extends React.Component {
       this.forceUpdate();
     };
 
-    // TODO: explain below
     if (
+      this.props.children && this.props.children.props &&
       this.props.children.props['data-transition-id'] &&
       nextProps.children.props['data-transition-id']
     ) {
