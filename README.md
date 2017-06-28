@@ -1,6 +1,8 @@
 # React Router Page Transition
 Highly customizable page transition component for your React Router
 
+**NOTE:** Currently does not fully support react-router 4, see [Using with React Router 4](#using-with-react-router-4).
+
 # Introduction
 
 **React Router** is awesome, but doing transition between pages is hard, especially for complex ones.
@@ -200,6 +202,19 @@ When using `PageTransition` with Redux, you may end up having the animation trig
 
 When `data-transition-id` prop is provided, `PageTransition` will use this value
 to compare the childrens. Now you can control exactly when will the pages are changed.
+
+## Using with React Router 4
+
+At the moment, callbacks are not supported on React Router 4, however the basic CSS transitions still works. You have to wrap your `<Route>` with `<Switch>`.
+
+```jsx
+        <PageTransition>
+          <Switch location={this.props.location}>
+            <Route exact path="/" component={ListPage} />
+            <Route path="/detail/:itemId" component={ItemDetailPage} />
+          </Switch>
+        </PageTransition>
+```
 
 # When to use this?
 
