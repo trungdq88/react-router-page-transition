@@ -1,15 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
-export default class ItemDetailPage extends React.Component {
-  render() {
-    return (
-      <div className="transition-item detail-page">
-        <Link to="/">Back</Link>
-        <h1>
-          Detail {this.props.params.itemId}
-        </h1>
-      </div>
-    );
-  }
-}
+export default (props) => (
+  <div className="transition-item detail-page">
+    <Link to="/">Back</Link>
+    <h1>
+      Detail {props.match.params.itemId}
+    </h1>
+  </div>
+);

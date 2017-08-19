@@ -1,7 +1,9 @@
 import React from 'react';
-import ReactDom from 'react-dom';
 import PageTransition from '../../../src/PageTransition.jsx';
 import action from './action.js';
+import { Switch, Route } from 'react-router-dom';
+import ListPage from './ListPage.jsx';
+import ItemDetailPage from './ItemDetailPage.jsx';
 
 export default class Home extends React.Component {
   constructor(...args) {
@@ -29,7 +31,10 @@ export default class Home extends React.Component {
           timeout={1000}
           data={{ clickedItemData: this.state.clickedItemData }}
         >
-          {this.props.children}
+          <Switch location={this.props.location}>
+            <Route exact path="/" component={ListPage} />
+            <Route path="/detail/:itemId" component={ItemDetailPage} />
+          </Switch>
         </PageTransition>
       </div>
     );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 export default class ItemDetailPage extends React.Component {
 
@@ -69,7 +69,7 @@ export default class ItemDetailPage extends React.Component {
         className="transition-item detail-page"
       >
         <Link to="/">
-          Item {this.props.params.itemId}
+          Item {this.props.match.params.itemId}
         </Link>
         <h1>
           Detail page here
