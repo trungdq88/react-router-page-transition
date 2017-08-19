@@ -1,10 +1,22 @@
 import React from 'react';
 import ReactDom from 'react-dom';
+import PropTypes from 'prop-types';
 import Queue from 'promise-queue';
 
-const DEFAULT_TIMEOUT = 500;
-
 export default class PageTransition extends React.Component {
+
+  static compareChildren(prevChild, nextChild) {
+    if (
+      prevChild && prevChild.props &&
+      prevChild.props['data-transition-id'] &&
+      nextChild.props &&
+      nextChild.props['data-transition-id']
+    ) {
+      return prevChild.props['data-transition-id'] ===
+        nextChild.props['data-transition-id'];
+    }
+    return prevChild === nextChild;
+  }
 
   constructor(...args) {
     super(...args);
@@ -50,26 +62,10 @@ export default class PageTransition extends React.Component {
       this.forceUpdate();
     };
 
-    if (
-      this.props.children && this.props.children.props &&
-      this.props.children.props['data-transition-id'] &&
-      nextProps.children.props['data-transition-id']
-    ) {
-      if (
-        this.props.children.props['data-transition-id'] !==
-        nextProps.children.props['data-transition-id']
-      ) {
-        transitNewChild();
-      } else {
-        updateChild();
-      }
-    } else {
-      if (this.props.children !== nextProps.children) {
-        transitNewChild();
-      } else {
-        updateChild();
-      }
-    }
+    const isChildrenEqual = this.props.compareChildren || PageTransition.compareChildren;
+    isChildrenEqual(this.props.children, nextProps.children)
+      ? updateChild()
+      : transitNewChild();
   }
 
   getRef(ref) {
@@ -81,6 +77,7 @@ export default class PageTransition extends React.Component {
     }
     return child;
   }
+
 
   transite(nextChild) {
     return new Promise((transiteDone, transiteFailed) => {
@@ -109,7 +106,7 @@ export default class PageTransition extends React.Component {
         // Add appear class and active class (or trigger manual start)
         const start = () => {
           if (newChildDom.classList.contains('transition-item')) {
-            timeout = this.props.timeout || DEFAULT_TIMEOUT;
+            timeout = this.props.timeout;
             newChildDom.classList.add('transition-appear');
             newChildDom.offsetHeight; // Trigger layout to make sure transition happen
             if (newChild.transitionManuallyStart) {
@@ -121,7 +118,7 @@ export default class PageTransition extends React.Component {
           if (prevChildDom) {
             prevChildDom.classList.add('transition-leave');
             prevChildDom.classList.add('transition-item');
-            timeout = this.props.timeout || DEFAULT_TIMEOUT;
+            timeout = this.props.timeout;
             prevChildDom.offsetHeight; // Trigger layout to make sure transition happen
             if (prevChild.transitionLeaveManuallyStart) {
               return prevChild.transitionLeaveManuallyStart(this.props.data, start) ||
@@ -218,7 +215,7 @@ export default class PageTransition extends React.Component {
             this.props.onLoad && this.props.onLoad();
             transiteDone();
           })
-          .catch(transiteFailed)
+          .catch(transiteFailed);
 
       });
     });
@@ -236,4 +233,16 @@ export default class PageTransition extends React.Component {
       </div>
     );
   }
+}
+
+PageTransition.propTypes = {
+  'data-transition-id': PropTypes.string,
+  data: PropTypes.object,
+  animateOnInit: PropTypes.bool,
+  timeout: PropTypes.number,
+  compareChildren: PropTypes.func,
+};
+
+PageTransition.defaultProps = {
+  timeout: 500,
 };
