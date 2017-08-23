@@ -205,7 +205,7 @@ to compare the childrens. Now you can control exactly when will the pages are ch
 
 ## Using with React Router 4
 
-At the moment, callbacks are not supported on React Router 4, however the basic CSS transitions still works. You have to wrap your `<Route>` with `<Switch>`.
+At the moment, callbacks are not supported on React Router 4, however the basic CSS transitions still works. You have to wrap your `<Route>` with `<Switch>`. Please notice that you **have to** pass the `location` prop to `<Switch>` to make it work.
 
 ```jsx
         <PageTransition>
