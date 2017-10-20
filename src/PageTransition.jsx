@@ -4,16 +4,18 @@ import PropTypes from 'prop-types';
 import Queue from 'promise-queue';
 
 export default class PageTransition extends React.Component {
-
   static compareChildren(prevChild, nextChild) {
     if (
-      prevChild && prevChild.props &&
+      prevChild &&
+      prevChild.props &&
       prevChild.props['data-transition-id'] &&
       nextChild.props &&
       nextChild.props['data-transition-id']
     ) {
-      return prevChild.props['data-transition-id'] ===
-        nextChild.props['data-transition-id'];
+      return (
+        prevChild.props['data-transition-id'] ===
+        nextChild.props['data-transition-id']
+      );
     }
     return prevChild === nextChild;
   }
@@ -62,7 +64,8 @@ export default class PageTransition extends React.Component {
       this.forceUpdate();
     };
 
-    const isChildrenEqual = this.props.compareChildren || PageTransition.compareChildren;
+    const isChildrenEqual =
+      this.props.compareChildren || PageTransition.compareChildren;
     isChildrenEqual(this.props.children, nextProps.children)
       ? updateChild()
       : transitNewChild();
@@ -78,13 +81,14 @@ export default class PageTransition extends React.Component {
     return child;
   }
 
-
   transite(nextChild) {
     return new Promise((transiteDone, transiteFailed) => {
       // Render the new children
       this.state[`child${this.state.nextChild}`] = nextChild;
       this.forceUpdate(() => {
-        const prevChild = this.getRef(`child${this.state.nextChild === 1 ? 2 : 1}`);
+        const prevChild = this.getRef(
+          `child${this.state.nextChild === 1 ? 2 : 1}`,
+        );
         const newChild = this.getRef(`child${this.state.nextChild}`);
         const prevChildDom = ReactDom.findDOMNode(prevChild);
         const newChildDom = ReactDom.findDOMNode(newChild);
@@ -93,12 +97,16 @@ export default class PageTransition extends React.Component {
         // Before add appear class
         const willStart = () => {
           if (newChild.onTransitionWillStart) {
-            return newChild.onTransitionWillStart(this.props.data) ||
-              Promise.resolve();
+            return (
+              newChild.onTransitionWillStart(this.props.data) ||
+              Promise.resolve()
+            );
           }
           if (prevChild && prevChild.onTransitionLeaveWillStart) {
-            return prevChild.onTransitionLeaveWillStart(this.props.data) ||
-              Promise.resolve();
+            return (
+              prevChild.onTransitionLeaveWillStart(this.props.data) ||
+              Promise.resolve()
+            );
           }
           return Promise.resolve();
         };
@@ -110,8 +118,10 @@ export default class PageTransition extends React.Component {
             newChildDom.classList.add('transition-appear');
             newChildDom.offsetHeight; // Trigger layout to make sure transition happen
             if (newChild.transitionManuallyStart) {
-              return newChild.transitionManuallyStart(this.props.data, start) ||
-                Promise.resolve();
+              return (
+                newChild.transitionManuallyStart(this.props.data, start) ||
+                Promise.resolve()
+              );
             }
             newChildDom.classList.add('transition-appear-active');
           }
@@ -121,8 +131,12 @@ export default class PageTransition extends React.Component {
             timeout = this.props.timeout;
             prevChildDom.offsetHeight; // Trigger layout to make sure transition happen
             if (prevChild.transitionLeaveManuallyStart) {
-              return prevChild.transitionLeaveManuallyStart(this.props.data, start) ||
-                Promise.resolve();
+              return (
+                prevChild.transitionLeaveManuallyStart(
+                  this.props.data,
+                  start,
+                ) || Promise.resolve()
+              );
             }
             prevChildDom.classList.add('transition-leave-active');
           }
@@ -132,35 +146,43 @@ export default class PageTransition extends React.Component {
         // After add classes
         const didStart = () => {
           if (newChild.onTransitionDidStart) {
-            return newChild.onTransitionDidStart(this.props.data) ||
-              Promise.resolve();
+            return (
+              newChild.onTransitionDidStart(this.props.data) ||
+              Promise.resolve()
+            );
           }
           if (prevChild && prevChild.onTransitionDidStartLeave) {
-            return prevChild.onTransitionLeaveDidStart(this.props.data) ||
-              Promise.resolve();
+            return (
+              prevChild.onTransitionLeaveDidStart(this.props.data) ||
+              Promise.resolve()
+            );
           }
           return Promise.resolve();
         };
 
         // Wait for transition
-        const waitForTransition = () => new Promise(resolve => {
-          setTimeout(() => {
-            // Swap child and remove the old child
-            this.state.nextChild = this.state.nextChild === 1 ? 2 : 1;
-            this.state[`child${this.state.nextChild}`] = null;
-            this.forceUpdate(resolve);
-          }, timeout);
-        });
+        const waitForTransition = () =>
+          new Promise(resolve => {
+            setTimeout(() => {
+              // Swap child and remove the old child
+              this.state.nextChild = this.state.nextChild === 1 ? 2 : 1;
+              this.state[`child${this.state.nextChild}`] = null;
+              this.forceUpdate(resolve);
+            }, timeout);
+          });
 
         // Before remove classes
         const willEnd = () => {
           if (newChild.onTransitionWillEnd) {
-            return newChild.onTransitionWillEnd(this.props.data) ||
-              Promise.resolve();
+            return (
+              newChild.onTransitionWillEnd(this.props.data) || Promise.resolve()
+            );
           }
           if (prevChild && prevChild.onTransitionLeaveWillEnd) {
-            return prevChild.onTransitionLeaveWillEnd(this.props.data) ||
-              Promise.resolve();
+            return (
+              prevChild.onTransitionLeaveWillEnd(this.props.data) ||
+              Promise.resolve()
+            );
           }
           return Promise.resolve();
         };
@@ -172,18 +194,25 @@ export default class PageTransition extends React.Component {
             newChildDom.classList.remove('transition-item');
 
             if (newChild.transitionManuallyStop) {
-              return newChild.transitionManuallyStop(this.props.data) ||
-                Promise.resolve();
+              return (
+                newChild.transitionManuallyStop(this.props.data) ||
+                Promise.resolve()
+              );
             }
             newChildDom.classList.remove('transition-appear-active');
           }
-          if (prevChildDom && prevChildDom.classList.contains('transition-item')) {
+          if (
+            prevChildDom &&
+            prevChildDom.classList.contains('transition-item')
+          ) {
             prevChildDom.classList.remove('transition-leave');
             prevChildDom.classList.remove('transition-item');
 
             if (prevChild.transitionLeaveManuallyStop) {
-              return prevChild.transitionLeaveManuallyStop(this.props.data) ||
-                Promise.resolve();
+              return (
+                prevChild.transitionLeaveManuallyStop(this.props.data) ||
+                Promise.resolve()
+              );
             }
             prevChildDom.classList.remove('transition-leave-active');
           }
@@ -193,12 +222,15 @@ export default class PageTransition extends React.Component {
         // After remove classes
         const didEnd = () => {
           if (newChild.onTransitionDidEnd) {
-            return newChild.onTransitionDidEnd(this.props.data) ||
-              Promise.resolve();
+            return (
+              newChild.onTransitionDidEnd(this.props.data) || Promise.resolve()
+            );
           }
           if (prevChild && prevChild.onTransitionLeaveDidEnd) {
-            return prevChild.onTransitionLeaveDidEnd(this.props.data) ||
-              Promise.resolve();
+            return (
+              prevChild.onTransitionLeaveDidEnd(this.props.data) ||
+              Promise.resolve()
+            );
           }
           return Promise.resolve();
         };
@@ -216,7 +248,6 @@ export default class PageTransition extends React.Component {
             transiteDone();
           })
           .catch(transiteFailed);
-
       });
     });
   }
@@ -225,10 +256,10 @@ export default class PageTransition extends React.Component {
     return (
       <div className="transition-wrapper">
         {React.Children.map(this.state.child1, element =>
-            React.cloneElement(element, { ref: 'child1' })
+          React.cloneElement(element, { ref: 'child1' }),
         )}
         {React.Children.map(this.state.child2, element =>
-          React.cloneElement(element, { ref: 'child2' })
+          React.cloneElement(element, { ref: 'child2' }),
         )}
       </div>
     );
