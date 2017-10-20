@@ -151,7 +151,7 @@ export default class PageTransition extends React.Component {
               Promise.resolve()
             );
           }
-          if (prevChild && prevChild.onTransitionDidStartLeave) {
+          if (prevChild && prevChild.onTransitionLeaveDidStart) {
             return (
               prevChild.onTransitionLeaveDidStart(this.props.data) ||
               Promise.resolve()
