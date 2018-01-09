@@ -216,6 +216,8 @@ At the moment, callbacks are not supported on React Router 4, however the basic 
         </PageTransition>
 ```
 
+See a live demo: https://codesandbox.io/s/n3rrym5y1l
+
 # When to use this?
 
 **Pros:**
