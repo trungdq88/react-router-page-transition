@@ -24,12 +24,9 @@ export default class ListPage extends React.Component {
   render() {
     return (
       <div className="transition-item list-page">
+        <a href="../">Back to index page</a>
         {this.state.items.map(item => (
-          <Link
-            key={item.id}
-            className="list-item"
-            to={`/detail/${item.id}`}
-          >
+          <Link key={item.id} className="list-item" to={`/detail/${item.id}`}>
             <Item {...item} />
           </Link>
         ))}
