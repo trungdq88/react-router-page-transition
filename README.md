@@ -135,6 +135,7 @@ Sometimes it is impossible to implement your designer's awesome animation idea i
           {this.props.children}
         </PageTransition>
     ```
+    When `transitionAction` presence, class `transition-${action}` will be added along with `transition-appear`, and will be removed along with `transition-leave`.
 
 ## Callback on children component
 `PageTransition` component calls a several callbacks to its child component to pass user defined additional data for the animation. Child components are mounted via React Router when the route change.
