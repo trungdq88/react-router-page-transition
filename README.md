@@ -124,6 +124,17 @@ Sometimes it is impossible to implement your designer's awesome animation idea i
           {this.props.children}
         </PageTransition>
     ```
+    
+- **transitionAction**: this prop can be used to add additional state to the transition, for example you can identify if a transition is a "go back" or "go forward" by using `history.action` from History API.
+
+    Example:
+    ```jsx
+        <PageTransition
+          transitionAction={this.props.history.action}
+        >
+          {this.props.children}
+        </PageTransition>
+    ```
 
 ## Callback on children component
 `PageTransition` component calls a several callbacks to its child component to pass user defined additional data for the animation. Child components are mounted via React Router when the route change.
