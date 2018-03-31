@@ -48,7 +48,7 @@ export default class PageTransition extends React.Component {
         const dom = ReactDom.findDOMNode(child);
         child.onTransitionDidEnd && child.onTransitionDidEnd(this.props.data);
         dom.classList.remove('transition-item');
-        if(this.props.transitionAction && this.props.transitionAction != ""){
+        if (this.hasTransitionAction()) {
           dom.classList.remove(`transition-${this.props.transitionAction}`);
         }
       }
@@ -82,6 +82,10 @@ export default class PageTransition extends React.Component {
       child = child.getWrappedInstance();
     }
     return child;
+  }
+
+  hasTransitionAction() {
+    return this.props.transitionAction && this.props.transitionAction != '';
   }
 
   transite(nextChild) {
@@ -119,8 +123,10 @@ export default class PageTransition extends React.Component {
           if (newChildDom.classList.contains('transition-item')) {
             timeout = this.props.timeout;
             newChildDom.classList.add('transition-appear');
-            if(this.props.transitionAction && this.props.transitionAction != ""){
-              newChildDom.classList.add(`transition-${this.props.transitionAction}`);
+            if (this.hasTransitionAction()) {
+              newChildDom.classList.add(
+                `transition-${this.props.transitionAction}`,
+              );
             }
             newChildDom.offsetHeight; // Trigger layout to make sure transition happen
             if (newChild.transitionManuallyStart) {
@@ -134,8 +140,10 @@ export default class PageTransition extends React.Component {
           if (prevChildDom) {
             prevChildDom.classList.add('transition-leave');
             prevChildDom.classList.add('transition-item');
-            if(this.props.transitionAction && this.props.transitionAction != ""){
-              prevChildDom.classList.add(`transition-${this.props.transitionAction}`);
+            if (this.hasTransitionAction()) {
+              prevChildDom.classList.add(
+                `transition-${this.props.transitionAction}`,
+              );
             }
             timeout = this.props.timeout;
             prevChildDom.offsetHeight; // Trigger layout to make sure transition happen
@@ -208,8 +216,10 @@ export default class PageTransition extends React.Component {
                 Promise.resolve()
               );
             }
-            if(this.props.transitionAction && this.props.transitionAction != ""){
-                newChildDom.classList.remove(`transition-${this.props.transitionAction}`);
+            if (this.hasTransitionAction()) {
+              newChildDom.classList.remove(
+                `transition-${this.props.transitionAction}`,
+              );
             }
             newChildDom.classList.remove('transition-appear-active');
           }
@@ -226,8 +236,10 @@ export default class PageTransition extends React.Component {
                 Promise.resolve()
               );
             }
-            if(this.props.transitionAction && this.props.transitionAction != ""){
-                prevChildDom.classList.remove(`transition-${this.props.transitionAction}`);
+            if (this.hasTransitionAction()) {
+              prevChildDom.classList.remove(
+                `transition-${this.props.transitionAction}`,
+              );
             }
             prevChildDom.classList.remove('transition-leave-active');
           }
@@ -287,7 +299,7 @@ PageTransition.propTypes = {
   animateOnInit: PropTypes.bool,
   timeout: PropTypes.number,
   compareChildren: PropTypes.func,
-  transitionAction: PropTypes.string
+  transitionAction: PropTypes.string,
 };
 
 PageTransition.defaultProps = {
