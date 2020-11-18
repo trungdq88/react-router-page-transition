@@ -1,7 +1,9 @@
+**Note**: this repo is now unmantained.
+
 # React Router Page Transition
 Highly customizable page transition component for your React Router
 
-**NOTE:** Currently does not fully support react-router 4, see [Using with React Router 4](#using-with-react-router-4).
+Currently does not fully support react-router 4, see [Using with React Router 4](#using-with-react-router-4).
 
 # Introduction
 
