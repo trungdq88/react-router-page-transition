@@ -1,5 +1,3 @@
-**Note**: this repo is now unmantained.
-
 # React Router Page Transition
 Highly customizable page transition component for your React Router
 
